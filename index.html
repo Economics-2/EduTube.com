@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এডু-টিউব শর্টস | জিয়াউদ্দিন স্কুল এন্ড কলেজ</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ytRed: '#FF0000',
+                        ytBg: '#F2F2F2',
+                        ytDark: '#0F0F0F'
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* কাস্টম স্ক্রলবার */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        
+        body { background-color: #F2F2F2; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        
+        .truncate-2-lines {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* ৯:১৬ রেশিও কন্টেইনার */
+        .aspect-9-16 {
+            aspect-ratio: 9 / 16;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF0000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="no-select text-ytDark overflow-hidden">
+
+    <!-- হেডার -->
+    <header class="bg-white flex items-center justify-between px-4 py-2 sticky top-0 z-40 shadow-sm h-[60px]">
+        <div class="flex items-center gap-4">
+            <button class="p-2 hover:bg-gray-100 rounded-full md:hidden" onclick="toggleSidebar()">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center gap-1 cursor-pointer" onclick="location.reload()">
+                <i class="fab fa-youtube text-ytRed text-3xl"></i>
+                <span class="text-xl font-bold tracking-tighter hidden sm:block">এডু<span class="text-ytRed">শর্টস</span></span>
+            </div>
+        </div>
+
+        <div class="hidden md:flex flex-1 max-w-2xl mx-8 items-center">
+            <div class="flex w-full border border-gray-300 rounded-full overflow-hidden bg-gray-50">
+                <input type="text" placeholder="শিক্ষামূলক শর্টস খুঁজুন..." class="w-full px-4 py-2 bg-transparent outline-none">
+                <button class="px-5 bg-gray-100 border-l border-gray-300 hover:bg-gray-200">
+                    <i class="fas fa-search text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button onclick="openAdminModal()" class="flex items-center gap-2 bg-ytRed hover:bg-red-700 text-white px-3 py-1.5 rounded-full text-sm font-semibold transition shadow-md">
+                <i class="fas fa-plus"></i> <span class="hidden md:block">ভিডিও আপলোড</span>
+            </button>
+            <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow">
+                M
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-[calc(100vh-60px)] relative">
+        <!-- সাইডবার -->
+        <aside id="sidebar" class="w-64 bg-white h-full overflow-y-auto hidden md:block flex-shrink-0 border-r border-gray-200 absolute md:relative z-30">
+            <div class="p-3">
+                <div class="hover:bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-4 cursor-pointer font-medium bg-gray-100 text-ytRed">
+                    <i class="fas fa-bolt w-5 text-center"></i> শর্টস
+                </div>
+                <div class="hover:bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-4 cursor-pointer mt-1">
+                    <i class="fas fa-chart-line w-5 text-center"></i> অর্থনীতি ও বাণিজ্য
+                </div>
+                <div class="hover:bg-gray-100 px-3 py-2 rounded-lg flex items-center gap-4 cursor-pointer mt-1">
+                    <i class="fas fa-laptop-code w-5 text-center"></i> আইসিটি ও এআই
+                </div>
+                <hr class="my-3 border-gray-200">
+                <h3 class="px-3 text-sm font-semibold text-gray-500 mb-2">উপদেষ্টা</h3>
+                <div class="px-3 flex items-center gap-3">
+                    <img src="https://ui-avatars.com/api/?name=Manjurul+Haque&background=0D8ABC&color=fff" class="w-9 h-9 rounded-full shadow-sm">
+                    <div class="text-sm">
+                        <p class="font-bold text-gray-800">মোঃ মঞ্জুরুল হক</p>
+                        <p class="text-xs text-gray-500">জিয়াউদ্দিন স্কুল এন্ড কলেজ</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- মূল কন্টেন্ট (ভিডিও গ্রিড) -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-ytBg w-full" onclick="closeSidebarOnMobile()">
+            <div class="flex gap-2 overflow-x-auto pb-4 mb-2 scrollbar-hide">
+                <button class="whitespace-nowrap bg-black text-white px-4 py-1.5 rounded-lg text-sm font-medium">সবগুলো</button>
+                <button class="whitespace-nowrap bg-gray-200 hover:bg-gray-300 px-4 py-1.5 rounded-lg text-sm font-medium transition">এআই টুলস</button>
+                <button class="whitespace-nowrap bg-gray-200 hover:bg-gray-300 px-4 py-1.5 rounded-lg text-sm font-medium transition">অর্থনীতি</button>
+                <button class="whitespace-nowrap bg-gray-200 hover:bg-gray-300 px-4 py-1.5 rounded-lg text-sm font-medium transition">মোটিভেশন</button>
+                <button class="whitespace-nowrap bg-gray-200 hover:bg-gray-300 px-4 py-1.5 rounded-lg text-sm font-medium transition">ফ্রিল্যান্সিং</button>
+            </div>
+
+            <div id="videoGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+                <!-- ভিডিও কার্ডগুলো এখানে লোড হবে -->
+            </div>
+        </main>
+    </div>
+
+    <!-- ৯:১৬ ফুলস্ক্রিন ভিডিও প্লেয়ার মোডাল -->
+    <div id="playerModal" class="fixed inset-0 bg-black z-50 hidden flex-col items-center justify-center backdrop-blur-md">
+        <!-- Close Button -->
+        <button onclick="closePlayer()" class="absolute top-4 right-4 z-[60] text-white bg-black/50 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <!-- Player Container -->
+        <div class="relative w-full max-w-[450px] aspect-9-16 bg-black shadow-2xl overflow-hidden md:rounded-xl flex items-center justify-center">
+            
+            <div id="playerContainer" class="w-full h-full bg-black flex items-center justify-center">
+                <!-- Video will be injected here -->
+            </div>
+
+            <!-- Floating Actions -->
+            <div class="absolute bottom-24 right-4 flex flex-col gap-6 items-center z-[55]">
+                <div class="flex flex-col items-center gap-1 cursor-pointer" onclick="toggleLike()">
+                    <div id="likeBtn" class="w-12 h-12 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition">
+                        <i id="likeIcon" class="fas fa-thumbs-up text-2xl"></i>
+                    </div>
+                    <span id="likeCountText" class="text-white text-xs font-bold drop-shadow-md">১,০০,০০০</span>
+                </div>
+                
+                <div class="flex flex-col items-center gap-1 cursor-pointer" onclick="shareVideo()">
+                    <div class="w-12 h-12 bg-blue-600/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-blue-500 transition animate-pulse-fast shadow-lg shadow-blue-500/50">
+                        <i class="fas fa-share text-xl"></i>
+                    </div>
+                    <span class="text-white text-xs font-bold drop-shadow-md">শেয়ার</span>
+                </div>
+            </div>
+
+            <!-- Video Info -->
+            <div class="absolute bottom-4 left-4 right-20 z-[55] text-white drop-shadow-lg">
+                <div class="flex items-center gap-2 mb-2">
+                    <img src="https://ui-avatars.com/api/?name=MH&background=0D8ABC&color=fff" class="w-8 h-8 rounded-full border border-white">
+                    <span class="font-bold text-sm">@manjurul_haque</span>
+                </div>
+                <h2 id="playerTitle" class="text-sm font-semibold line-clamp-2">ভিডিওর শিরোনাম</h2>
+                <div class="mt-1 flex gap-2 text-xs opacity-90">
+                    <span class="bg-black/50 px-2 py-0.5 rounded"><i class="fas fa-eye mr-1"></i><span id="playerViews">০</span></span>
+                    <span id="playerCategory" class="bg-ytRed/80 px-2 py-0.5 rounded">ক্যাটাগরি</span>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-[50]"></div>
+        </div>
+    </div>
+
+    <!-- অ্যাডমিন প্যানেল -->
+    <div id="adminModal" class="fixed inset-0 bg-black/60 z-[70] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="bg-ytRed p-4 text-white flex justify-between items-center flex-shrink-0">
+                <h2 class="text-lg font-bold"><i class="fas fa-cloud-upload-alt mr-2"></i>ভিডিও আপলোড প্যানেল</h2>
+                <button onclick="closeAdminModal()" class="hover:text-gray-200"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="p-5 overflow-y-auto flex-1">
+                <form id="uploadForm" class="space-y-4" onsubmit="handleUpload(event)">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1 text-gray-700">ভিডিওর শিরোনাম</label>
+                        <input type="text" id="vTitle" required class="w-full border p-2.5 rounded-lg focus:outline-blue-500 bg-gray-50" placeholder="শিরোনাম দিন">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-1 text-gray-700">ক্যাটাগরি</label>
+                            <select id="vCategory" class="w-full border p-2.5 rounded-lg focus:outline-blue-500 bg-gray-50">
+                                <option value="আইসিটি">আইসিটি ও এআই</option>
+                                <option value="অর্থনীতি">অর্থনীতি</option>
+                                <option value="মোটিভেশন">মোটিভেশন</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1 text-gray-700">ভিডিওর উৎস</label>
+                            <select id="vSourceType" class="w-full border p-2.5 rounded-lg focus:outline-blue-500 bg-gray-50" onchange="toggleSourceInput()">
+                                <option value="youtube">ইউটিউব লিংক</option>
+                                <option value="direct_link" selected>ডিরেক্ট লিংক (গিটহাব/অন্যান্য)</option>
+                                <option value="github_upload">নতুন ফাইল গিটহাবে আপলোড</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Link Input -->
+                    <div id="urlInputGroup">
+                        <label class="block text-sm font-semibold mb-1 text-gray-700" id="urlInputLabel">ভিডিওর ডিরেক্ট লিংক</label>
+                        <input type="url" id="vUrl" class="w-full border p-2.5 rounded-lg focus:outline-blue-500 bg-gray-50" placeholder="https://raw.githubusercontent.com/.../video.mp4">
+                    </div>
+
+                    <!-- GitHub Upload Inputs -->
+                    <div id="githubInputGroup" class="hidden bg-blue-50 p-4 rounded-lg border border-blue-100 space-y-3">
+                        <div class="flex items-center gap-2 text-blue-800 font-bold text-sm mb-2">
+                            <i class="fab fa-github text-lg"></i> গিটহাব এপিআই সেটিংস
+                        </div>
+                        <input type="text" id="ghToken" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="GitHub PAT Token">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="ghOwner" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="Username">
+                            <input type="text" id="ghRepo" class="w-full border p-2 rounded focus:outline-blue-500" placeholder="Repository">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-1 mt-2 text-gray-700">ভিডিও ফাইল (.mp4)</label>
+                            <input type="file" id="vFile" accept="video/mp4" class="w-full border bg-white p-1 rounded">
+                        </div>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <div>
+                        <label class="block text-sm font-semibold mb-1 text-gray-700">কাস্টম থাম্বনেইল</label>
+                        <input type="file" id="vThumb" accept="image/jpeg, image/png" class="w-full border p-1 rounded bg-gray-50">
+                    </div>
+
+                    <div id="uploadStatus" class="hidden flex items-center justify-center gap-3 text-blue-600 font-bold bg-blue-50 p-3 rounded-lg">
+                        <div class="loader"></div> <span id="statusText">প্রসেস হচ্ছে... দয়া করে অপেক্ষা করুন।</span>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-ytDark text-white font-bold py-3 rounded-lg hover:bg-black transition shadow-md">
+                        <i class="fas fa-paper-plane mr-2"></i> ভিডিও পাবলিশ করুন
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- কোড প্রটেকশন ---
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false; 
+            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        };
+
+        const enToBn = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+        function formatBn(num) {
+            return num.toLocaleString('en-US').replace(/[0-9]/g, w => enToBn[w]);
+        }
+
+        let currentPlayingIndex = null;
+        let currentLikes = 0;
+        let videos = [];
+
+        const savedVideos = JSON.parse(localStorage.getItem('eduTubeShorts'));
+        if(savedVideos && savedVideos.length > 0) {
+            videos = savedVideos;
+        } else {
+            // Demo data
+            videos = [
+                { id: 1, title: 'এআই দিয়ে ছবি থেকে ভিডিও তৈরি', category: 'আইসিটি', type: 'youtube', url: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumb: '', views: Math.floor(Math.random() * 900000) + 100001, likes: Math.floor(Math.random() * 50000) + 100001 }
+            ];
+        }
+
+        const savedGhConfig = JSON.parse(localStorage.getItem('ghConfig'));
+        if(savedGhConfig) {
+            document.getElementById('ghToken').value = savedGhConfig.token || '';
+            document.getElementById('ghOwner').value = savedGhConfig.owner || '';
+            document.getElementById('ghRepo').value = savedGhConfig.repo || '';
+        }
+
+        // --- SMART URL FIXER FUNCTION ---
+        // গিটহাবের পেজ লিংক বা ভুল লিংককে প্লে করার উপযোগী করে
+        function fixSmartUrl(url) {
+            let fixedUrl = url;
+            // গিটহাবের .com/blob/ লিংক হলে অটোমেটিক raw লিংকে কনভার্ট করবে
+            if (fixedUrl.includes('github.com') && fixedUrl.includes('/blob/')) {
+                fixedUrl = fixedUrl.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+            }
+            return fixedUrl;
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            videos.forEach((video, index) => {
+                let thumbSrc = video.thumb;
+                if(!thumbSrc && video.url.includes('youtube.com')) {
+                    let ytId = video.url.split('embed/')[1]?.split('?')[0] || video.url.split('v=')[1]?.split('&')[0];
+                    if(ytId) thumbSrc = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+                }
+                
+                let bgStyle = thumbSrc ? `background-image: url('${thumbSrc}'); background-size: cover; background-position: center;` : `background: linear-gradient(45deg, #FF416C, #FF4B2B);`;
+
+                const cardHTML = `
+                    <div class="flex flex-col gap-2 cursor-pointer group" onclick="playVideo(${index})">
+                        <div class="relative w-full aspect-9-16 rounded-xl overflow-hidden shadow-sm group-hover:shadow-lg transition-all duration-300" style="${bgStyle}">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+                            <div class="absolute bottom-2 left-2 flex items-center gap-1 text-white text-xs font-bold bg-black/50 px-1.5 py-0.5 rounded backdrop-blur-sm">
+                                <i class="fas fa-play text-[10px]"></i> ${formatBn(video.views)}
+                            </div>
+                        </div>
+                        <div class="pr-2">
+                            <h3 class="text-sm font-semibold text-ytDark truncate-2-lines group-hover:text-ytRed transition">${video.title}</h3>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        function playVideo(index) {
+            currentPlayingIndex = index;
+            const video = videos[index];
+            currentLikes = video.likes || 100000;
+
+            document.getElementById('playerTitle').innerText = video.title;
+            document.getElementById('playerViews').innerText = formatBn(video.views);
+            document.getElementById('playerCategory').innerText = video.category;
+            updateLikeUI();
+            
+            const container = document.getElementById('playerContainer');
+            
+            // স্মার্ট ইউআরএল ফিক্সার ব্যবহার করা হচ্ছে (ভুল লিংক সেভ করা থাকলেও ঠিক হয়ে প্লে হবে)
+            let safeUrl = fixSmartUrl(video.url);
+            
+            // যদি লিংকে youtube বা youtu.be থাকে তবেই শুধু আইফ্রেম ব্যবহার করবে (ভুল ক্যাটাগরির হাত থেকে বাঁচাতে)
+            let isRealYouTube = safeUrl.includes('youtube.com') || safeUrl.includes('youtu.be');
+
+            if(isRealYouTube) {
+                let embedUrl = safeUrl;
+                if(safeUrl.includes('watch?v=')) embedUrl = safeUrl.replace('watch?v=', 'embed/');
+                if(safeUrl.includes('shorts/')) embedUrl = safeUrl.replace('shorts/', 'embed/');
+                
+                container.innerHTML = `<iframe class="w-full h-full" src="${embedUrl}?autoplay=1&mute=0&controls=1&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+            } else {
+                // গিটহাব বা ডিরেক্ট MP4 ফাইল (object-contain ব্যবহার করা হয়েছে যাতে ভিডিও কেটে না যায়)
+                container.innerHTML = `<video class="w-full h-full object-contain bg-black" src="${safeUrl}" controls autoplay playsinline></video>`;
+            }
+            
+            document.getElementById('playerModal').classList.replace('hidden', 'flex');
+        }
+
+        function closePlayer() {
+            document.getElementById('playerModal').classList.replace('flex', 'hidden');
+            document.getElementById('playerContainer').innerHTML = '';
+            currentPlayingIndex = null;
+        }
+
+        function toggleLike() {
+            if(currentPlayingIndex === null) return;
+            const icon = document.getElementById('likeIcon');
+            
+            if(icon.classList.contains('text-ytRed')) {
+                icon.classList.replace('text-ytRed', 'text-white');
+                currentLikes--;
+            } else {
+                icon.classList.replace('text-white', 'text-ytRed');
+                currentLikes++;
+                icon.style.transform = 'scale(1.5)';
+                setTimeout(() => icon.style.transform = 'scale(1)', 200);
+            }
+            videos[currentPlayingIndex].likes = currentLikes;
+            localStorage.setItem('eduTubeShorts', JSON.stringify(videos));
+            updateLikeUI();
+        }
+
+        function updateLikeUI() {
+            document.getElementById('likeCountText').innerText = formatBn(currentLikes);
+        }
+
+        function shareVideo() {
+            if(currentPlayingIndex === null) return;
+            const video = videos[currentPlayingIndex];
+            if (navigator.share) {
+                navigator.share({
+                    title: video.title,
+                    text: `দারুণ একটি শিক্ষামূলক শর্টস দেখুন: ${video.title}\nসৌজন্যে: মোঃ মঞ্জুরুল হক, জিয়াউদ্দিন স্কুল এন্ড কলেজ`,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert("ভিডিওর লিংক কপি করা হয়েছে!");
+            }
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hidden'); }
+        function closeSidebarOnMobile() { if(window.innerWidth < 768) document.getElementById('sidebar').classList.add('hidden'); }
+        function openAdminModal() { document.getElementById('adminModal').classList.replace('hidden', 'flex'); }
+        function closeAdminModal() { document.getElementById('adminModal').classList.replace('flex', 'hidden'); }
+        
+        function toggleSourceInput() {
+            const type = document.getElementById('vSourceType').value;
+            const urlGroup = document.getElementById('urlInputGroup');
+            const githubGroup = document.getElementById('githubInputGroup');
+            const urlLabel = document.getElementById('urlInputLabel');
+
+            if(type === 'github_upload') {
+                urlGroup.classList.add('hidden');
+                githubGroup.classList.remove('hidden');
+            } else {
+                urlGroup.classList.remove('hidden');
+                githubGroup.classList.add('hidden');
+                
+                if (type === 'direct_link') {
+                    urlLabel.innerText = 'ভিডিওর ডিরেক্ট লিংক (যেমন: গিটহাব র-লিংক)';
+                    document.getElementById('vUrl').placeholder = "https://raw.githubusercontent.com/.../video.mp4";
+                } else {
+                    urlLabel.innerText = 'ইউটিউব লিংক';
+                    document.getElementById('vUrl').placeholder = "https://youtube.com/shorts/...";
+                }
+            }
+        }
+
+        const getBase64 = (file) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
+        async function uploadToGitHub(file, path, token, owner, repo) {
+            const base64Content = await getBase64(file);
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Upload ${path} via Edu-Shorts Panel`, content: base64Content })
+            });
+            if(!response.ok) {
+                const err = await response.json();
+                throw new Error(err.message || 'GitHub Upload Failed');
+            }
+            return `https://raw.githubusercontent.com/${owner}/${repo}/main/${path}`;
+        }
+
+        async function handleUpload(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('uploadStatus');
+            const statusText = document.getElementById('statusText');
+            
+            const title = document.getElementById('vTitle').value;
+            const category = document.getElementById('vCategory').value;
+            const type = document.getElementById('vSourceType').value;
+            const thumbFile = document.getElementById('vThumb').files[0];
+            
+            let finalVideoUrl = '';
+            let finalThumbUrl = '';
+
+            try {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-50');
+                statusDiv.classList.replace('hidden', 'flex');
+
+                const timestamp = Date.now();
+
+                if(type === 'github_upload') {
+                    const token = document.getElementById('ghToken').value.trim();
+                    const owner = document.getElementById('ghOwner').value.trim();
+                    const repo = document.getElementById('ghRepo').value.trim();
+                    const videoFile = document.getElementById('vFile').files[0];
+
+                    if(!token || !owner || !repo || !videoFile) throw new Error('গিটহাবের তথ্য এবং ভিডিও ফাইল সঠিকভাবে দিন!');
+
+                    localStorage.setItem('ghConfig', JSON.stringify({token, owner, repo}));
+
+                    statusText.innerText = 'ভিডিও গিটহাবে আপলোড হচ্ছে...';
+                    const videoPath = `videos/vid_${timestamp}.mp4`;
+                    finalVideoUrl = await uploadToGitHub(videoFile, videoPath, token, owner, repo);
+
+                    if(thumbFile) {
+                        statusText.innerText = 'থাম্বনেইল আপলোড হচ্ছে...';
+                        const thumbPath = `thumbnails/thumb_${timestamp}.jpg`;
+                        finalThumbUrl = await uploadToGitHub(thumbFile, thumbPath, token, owner, repo);
+                    }
+
+                } else {
+                    finalVideoUrl = document.getElementById('vUrl').value;
+                    if(!finalVideoUrl) throw new Error('ভিডিও লিংক দিন!');
+                    
+                    // অটোমেটিক স্মার্ট ইউআরএল ফিক্স আপলোডের সময়ও কাজ করবে
+                    finalVideoUrl = fixSmartUrl(finalVideoUrl);
+
+                    if(thumbFile) {
+                        statusText.innerText = 'থাম্বনেইল প্রসেস হচ্ছে...';
+                        finalThumbUrl = await new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(thumbFile);
+                            reader.onload = () => resolve(reader.result);
+                        });
+                    }
+                }
+
+                videos.unshift({
+                    id: timestamp,
+                    title: title,
+                    category: category,
+                    type: finalVideoUrl.includes('youtube.com') || finalVideoUrl.includes('youtu.be') ? 'youtube' : 'direct',
+                    url: finalVideoUrl,
+                    thumb: finalThumbUrl,
+                    views: Math.floor(Math.random() * 900000) + 100001,
+                    likes: Math.floor(Math.random() * 50000) + 100001
+                });
+
+                localStorage.setItem('eduTubeShorts', JSON.stringify(videos));
+                
+                renderVideos();
+                closeAdminModal();
+                document.getElementById('uploadForm').reset();
+                alert('অভিনন্দন! ভিডিও সফলভাবে পাবলিশ হয়েছে।');
+
+            } catch (error) {
+                alert('ত্রুটি: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+                statusDiv.classList.replace('flex', 'hidden');
+            }
+        }
+
+        renderVideos();
+        // নিশ্চিত করছি যে আপলোড অপশন ঠিকভাবে দেখাবে
+        document.getElementById('vSourceType').value = 'direct_link';
+    </script>
+</body>
+</html>
+
+
